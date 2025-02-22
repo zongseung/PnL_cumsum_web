@@ -1,0 +1,36 @@
+<!-- myapp/templates/myapp/plot_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Plot PnL Graph</title>
+</head>
+<body style="background-color:#11191D; color:white;">
+    <h1>Plot PnL Graph</h1>
+
+    <!-- 폼 (GET 방식) -->
+    <form method="GET" action="">
+        <label for="wallet">Wallet Address:</label><br>
+        <input type="text" id="wallet" name="wallet" value="{{ wallet|default_if_none:'' }}" placeholder="0x..."><br><br>
+
+        <label for="time_interval">Time Interval (days):</label><br>
+        <input type="number" id="time_interval" name="time_interval" value="{{ time_interval|default_if_none:'7' }}"><br><br>
+
+        <label for="spot_only">Spot Only?</label>
+        <input type="checkbox" id="spot_only" name="spot_only" value="true" 
+               {% if spot_only == 'true' %}checked{% endif %}><br><br>
+
+        <button type="submit">Generate Graph</button>
+    </form>
+
+    <hr>
+
+    {% if chart_data %}
+    <h2>Result</h2>
+    <!-- base64 인코딩된 PNG 이미지를 바로 표시 -->
+    <img src="data:image/png;base64,{{ chart_data }}" alt="PnL Graph">
+    {% else %}
+    <p>그래프를 보려면 폼을 작성 후 제출하세요.</p>
+    {% endif %}
+</body>
+</html>
